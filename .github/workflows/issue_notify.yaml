@@ -49,7 +49,7 @@ jobs:
                 "fields": [
                   {
                     "title": "Level : ${{ needs.get-keyword.outputs.level }}",
-                    "short": true,
+                    "short": false,
                     "value": "issue url : ${{ github.event.issue.html_url }}"
                   }
                 ]
