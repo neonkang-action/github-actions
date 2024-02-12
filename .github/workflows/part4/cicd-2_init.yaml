@@ -40,7 +40,7 @@ jobs:
       environment: ${{ steps.set-env.outputs.environment }}
     steps:
     - name: set env
-      id: set-env
+      id: set-env  # ${{ github.base_ref }} : PR의 Target Branch명
       run: |
         echo ${{ github.base_ref }}
         echo "environment=dev" >> $GITHUB_OUTPUT
