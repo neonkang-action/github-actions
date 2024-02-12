@@ -46,14 +46,14 @@ jobs:
       id: credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        aws-region: ${{ vars.AWS_REGION }}
+        aws-region: ${{ vars.AWS_REGION }}  # ap-northeast-1
         role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v2
       with:
         mask-password: 'true'
-    - name: docker build & push
+    - name: docker build & push   # vars.REPOSITORY : my-app-dev
       run: |
         docker build -f Dockerfile --tag ${{ secrets.REGISTRY }}/${{ vars.REPOSITORY }}:${{ github.sha }} .
         docker push ${{ secrets.REGISTRY }}/${{ vars.REPOSITORY }}:${{ github.sha }}
@@ -81,11 +81,11 @@ jobs:
       uses: azure/setup-helm@v3
       with:
         version: v3.11.1
-    - name: access kubernetes
+    - name: access kubernetes # vars.CLUSTER_NAME : github-actions-cluster
       run: |
         aws eks update-kubeconfig --name ${{ vars.CLUSTER_NAME }}
     - name: deploy
-      id: status  # steps.status.outcome 값으로 결과값 확인 가능
+      id: status  # steps.status.outcome 값으로 결과값 확인 가능,  vars.SUFFIX : dev
       run: |
         helm upgrade --install my-app kubernetes/my-app --create-namespace --namespace my-app-${{ vars.SUFFIX }} \
         --set image.tag=${{ github.sha }} \

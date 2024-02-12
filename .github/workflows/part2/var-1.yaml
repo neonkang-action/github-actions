@@ -1,7 +1,7 @@
 name: var-1
 on: push
 
-env:
+env:  # workflow level env 설정
   level: workflow
 
 jobs:
@@ -9,15 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: check env
-      run: echo "LEVEL ${{ env.level }}"
+      run: echo "LEVEL ${{ env.level }}"  # "LEVEL workflow"
   
   get-env-2:
     runs-on: ubuntu-latest
-    env:
+    env: # job level env 설정
       level: job
     steps:
     - name: check env
-      run: echo "LEVEL ${{ env.level }}"
+      run: echo "LEVEL ${{ env.level }}"  # "LEVEL job"
 
   get-env-3:
     runs-on: ubuntu-latest
@@ -25,17 +25,17 @@ jobs:
       level: job
     steps:
     - name: check env
-      run: echo "LEVEL ${{ env.level }}"
-      env:
+      run: echo "LEVEL ${{ env.level }}"  # "LEVEL step"
+      env:  # step level env 설정
         level: step
   
   get-env:
     runs-on: ubuntu-latest
     steps:
     - name: create env
-      run: echo "level=job" >> $GITHUB_ENV
+      run: echo "level=job" >> $GITHUB_ENV  # echo "{key}={value}" >> $GITHUB_ENV 방식 설정
     - name: check env
-      run: echo "LEVEL ${{ env.level }}"
+      run: echo "LEVEL ${{ env.level }}"  # "LEVEL job"
   
   
   
